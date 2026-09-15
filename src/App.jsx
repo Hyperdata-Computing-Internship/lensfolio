@@ -1,24 +1,20 @@
 import axios from 'axios'
 import React, { useEffect, useState } from 'react'
+import Card from './components/Card'
 
 const App = () => {
   const [data, setdata] = useState([])
   const [page, setpage] = useState(1)
 
   const getdata = async () => {
-    const response = await axios.get(`https://picsum.photos/v2/list?page=${page}&limit=100`)
+    const response = await axios.get(`https://picsum.photos/v2/list?page=${page}&limit=10`)
     setdata(response.data)
   }
   let printuserdata = "Laoding"
   if (data.length > 0) {
     printuserdata = data.map(function (elem, idx) {
       return <div key={idx}>
-        <a href={elem.url}>
-          <div className='h-40 w-44 overflow-hidden rounded-xl'>
-            <img className='h-full w-full object-cover' src={elem.download_url} alt="" />
-          </div>
-          <h2 className='font-bold text-lg'>{elem.author}</h2>
-        </a>
+        <Card elem={elem} />
       </div>
     })
   }
@@ -56,8 +52,8 @@ const App = () => {
           style={{ opacity: page == 1 ? 0.6 : 1 }}
           className='bg-amber-400 text-sm cursor-pointer active:scale-95 text-black rounded px-4 py-2 font-semibold'
           onClick={() => {
-            if(page>1){
-              setpage(page-1)
+            if (page > 1) {
+              setpage(page - 1)
               setdata([])
             }
           }}
@@ -68,7 +64,7 @@ const App = () => {
         <button
           className='bg-amber-400 text-sm cursor-pointer active:scale-95 text-black rounded px-4 py-2 font-semibold'
           onClick={() => {
-            setpage(page+1)
+            setpage(page + 1)
             setdata([])
           }}
         >
